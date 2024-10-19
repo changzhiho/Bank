@@ -44,4 +44,10 @@ class CurrentAccount
             Console.WriteLine("Le montant déposé doit être positif");
         }
     }
+
+    public double GetBalance()
+    {
+        return Balance;
+    }
+    
 }

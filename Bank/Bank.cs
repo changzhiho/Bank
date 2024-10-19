@@ -34,4 +34,14 @@ class Bank
             Console.WriteLine("Compte non trouvé");
         }
     }
+
+    public double GetTotalBalance(Personne Owner)
+    {
+        double totalBalance = 0;
+        foreach (var account in Accounts.Values)
+        {
+            totalBalance += account.GetBalance();
+        }
+        return totalBalance;
+    }
 }
