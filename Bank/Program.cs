@@ -2,3 +2,9 @@
 CurrentAccount ca = new("123456", 1000, 500, p);
 Bank bank = new("ING");
 
+class Account
+    
+
+
+
+

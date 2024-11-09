@@ -35,6 +35,20 @@ class Bank
         }
     }
 
+    public double GetAccountBalance(string accountNumber)
+    {
+        if (Accounts.ContainsKey(accountNumber))
+        {
+            CurrentAccount account = Accounts[accountNumber];
+            return account.GetBalance();
+        }
+        else
+        {
+            Console.WriteLine("Compte non trouvé");
+            return 0;
+        }
+    }
+
     public double GetTotalBalance(Personne Owner)
     {
         double totalBalance = 0;
