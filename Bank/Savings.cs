@@ -1,19 +1,17 @@
-class Savings
-{
-    public string Number { get; set; }
-    public double Balance { get; private set; }
-    public DateTime DateLastWithdraw { get; private set; }
-    public Personne Owner { get; set; }
+using System;
 
-    public Savings(string number, double balance, Personne owner)
+public class Savings : Account
+{
+    public DateTime DateLastWithdraw { get; private set; }
+
+    public Savings(string number, double balance, Person owner)
+        : base(number, balance, owner)
     {
-        Number = number;
-        Balance = balance;
-        Owner = owner;
-        DateLastWithdraw = DateTime.MinValue;
+        DateLastWithdraw = DateTime.MinValue; // Initialement, aucune date de retrait
     }
 
-    public void Withdraw(double amount)
+    // Redéfinition de la méthode Withdraw
+    public override void Withdraw(double amount)
     {
         if (amount <= 0)
         {
@@ -23,26 +21,32 @@ class Savings
 
         if (Balance >= amount)
         {
-            Balance -= amount;
-            DateLastWithdraw = DateTime.Now;
-            Console.WriteLine($"Retrait de {amount} effectué. Nouveau solde : {Balance}.");
+            Console.WriteLine($"Retrait de {amount} effectué. Nouveau solde : {Balance - amount}");
+            DateLastWithdraw = DateTime.Now; // Mise à jour de la date du dernier retrait
         }
         else
         {
-            Console.WriteLine("Fonds insuffisants pour ce retrait.");
+            Console.WriteLine("Fonds insuffisants.");
         }
     }
-
-    public void Deposit(double amount)
+    
+    //Implémentation de la méthode CalculInterests (4,5%)
+    protected override double CalculInterests()
     {
-        if (amount > 0)
+        double interest = Balance * 0.045;
+        return interest;
+    }
+
+    // Méthode pour afficher la date du dernier retrait
+    public void ShowLastWithdrawDate()
+    {
+        if (DateLastWithdraw != DateTime.MinValue)
         {
-            Balance += amount;
-            Console.WriteLine($"Dépôt de {amount} effectué. Nouveau solde : {Balance}.");
+            Console.WriteLine($"Dernier retrait effectué le : {DateLastWithdraw}");
         }
         else
         {
-            Console.WriteLine("Le montant du dépôt doit être positif.");
+            Console.WriteLine("Aucun retrait effectué.");
         }
     }
 }

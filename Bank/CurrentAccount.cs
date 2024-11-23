@@ -1,53 +1,46 @@
-class CurrentAccount
+using System;
+
+public class CurrentAccount : Account
 {
-    public string Number { get; set; }
-    public double Balance { get; private set; }
     public double CreditLine { get; set; }
-    public Personne Owner { get; set; }
 
-    public CurrentAccount(string number, double balance, double creditline, Personne owner)
+    public CurrentAccount(string number, double balance, double creditLine, Person owner)
+        : base(number, balance, owner)
     {
-        Number = number;
-        Balance = balance;
-        CreditLine = creditline;
-        Owner = owner;
-
+        CreditLine = creditLine;
     }
 
-    public void Withdraw(double amount)
+    // Redéfinition de la méthode Withdraw
+    public override void Withdraw(double amount)
     {
         if (amount <= 0)
         {
-            Console.WriteLine("Vous ne pouvez pas retirer un montant négatif");
+            Console.WriteLine("Le montant du retrait doit être positif.");
+            return;
         }
 
         if (Balance + CreditLine >= amount)
         {
-            Balance -= amount;
-            Console.WriteLine($"Retrait de  {amount} euros effectué");
+            Console.WriteLine($"Retrait de {amount} effectué. Nouveau solde : {Balance - amount}");
         }
         else
         {
-            Console.WriteLine("Le retrait n'a pas pu s'effectuer");
+            Console.WriteLine("Fonds insuffisants.");
         }
-    }
-
-    public void Deposit(double amount)
-    {
-        if (amount > 0)
-        {
-            Balance += amount;
-            Console.WriteLine($"Dépôt de {amount} effectué");
-        }
-        else
-        {
-            Console.WriteLine("Le montant déposé doit être positif");
-        }
-    }
-
-    public double GetBalance()
-    {
-        return Balance;
     }
     
+    //Implémentation de la méthode CalculInterest (3% si balance positif, sinon 9,75%)
+    protected override double CalculInterests()
+    {
+        double interest;
+        if (Balance > 0)
+        {
+            interest = Balance * 0.03;
+        }
+        else
+        {
+            interest = Balance * 0.0975;
+        }
+        return interest;
+    }
 }
